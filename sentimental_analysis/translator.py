@@ -7,7 +7,7 @@ import sys, re
 
 def main():
     # Read the CSV file into a PySpark DataFrame
-    df = spark.read.csv("sample.csv", header=True, delimiter='\t')
+    df = spark.read.csv("sample.csv", header=True)
     text_col = col("Official ManCity team news for MCIBOU")
     
     translate_udf = udf(translate_text, StringType())
@@ -23,7 +23,7 @@ def main():
 # Define a translation function as a UDF
 def translate_text(text):
     translator = Translator(service_urls=['translate.google.com']) 
-
+    text = re.sub("[^a-zA-Z]", " ", text)
     try:
         translated_text = translator.translate(text, dest='en').text
         return translated_text
