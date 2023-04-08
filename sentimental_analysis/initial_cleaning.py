@@ -30,7 +30,7 @@ def main(inputs, output):
     
 
 if __name__ == '__main__':
-    spark = SparkSession.builder.appName('yelp').getOrCreate()
+    spark = SparkSession.builder.appName('inital cleaning').getOrCreate()
     assert spark.version >= '3.0' # make sure we have Spark 3.0+
     spark.sparkContext.setLogLevel('WARN')
     sc = spark.sparkContext
