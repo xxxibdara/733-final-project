@@ -1,0 +1,2 @@
+*.bin filter=lfs diff=lfs merge=lfs -text
+tag_prediction/tag_model/pytorch_model.bin filter=lfs diff=lfs merge=lfs -text
