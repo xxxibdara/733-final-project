@@ -56,7 +56,7 @@ st.write(stemmed_dist)
 # create the word cloud using streamlit
 comments = []
 stop_words = set(stopwords.words('english')) | set(['covid','u','s','t',"https", "co", "RT", 'aren', 'couldn', 'didn', 'doesn', 'don', 'hadn', 'hasn', 'haven', 'isn', 'let', 'll', 'mustn', 're', 'rt', 'shan', 'shouldn', 've', 'wasn', 'weren', 'won', 'wouldn'])
-#print(stop_words)
+
 for words in text_df:
     only_letters = re.sub("[^a-zA-Z]", " ",words)
     tokens = nltk.word_tokenize(only_letters) #tokenize the sentences
