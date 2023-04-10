@@ -1,14 +1,14 @@
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import udf
+from pyspark.sql.functions import udf, col
 from pyspark.sql.types import StringType
 from googletrans import Translator
-import col
 
 import sys
 
 def main():
     # Read the CSV file into a PySpark DataFrame
-    df = spark.read.csv('twitter_news.csv', header=True)
+    df = spark.read.csv('twitter_news.csv', header=True).repartition(100)
+    df = df.map(lambda x: x.dropna())
     df = df.withColumnRenamed(columns={'Official   ManCity team news for  MCIBOU': 'Official ManCity team news for MCIBOU'}, inplace=True)
     text_col = col('Official ManCity team news for MCIBOU')
     

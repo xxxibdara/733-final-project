@@ -2,8 +2,9 @@
 # Path: streamlit_graphs/data_preparation.py
 import pandas as pd
 import glob
+import sys
 
-tag_name = 'covid'
+tag_name = sys.argv[1]
 # integrate the data from all csv files
 folder_path = f"/Users/xxxibdara/Downloads/733-final-project/scraping/{tag_name}"
 

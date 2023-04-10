@@ -1,0 +1,8 @@
+transformers==4.27.4
+torch
+matplotlib==3.6.2
+nltk==3.6.5
+wordcloud==1.8.1
+pandas==1.5.1
+plotly==5.14.1
+numpy==1.19.5

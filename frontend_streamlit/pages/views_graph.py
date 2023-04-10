@@ -1,3 +1,5 @@
+# Description: This file contains the code for the views graph page
+
 import pandas as pd
 import streamlit as st
 import plotly.express as px
@@ -6,11 +8,11 @@ import plotly.express as px
 st.title('Twitter data changes over time')
 
 # set the page subtitle
-st.subheader('This app displays the number of views, retweets, and comments for a given tag over time')
+st.subheader('This page displays the number of views, retweets, and comments for a given tag over time')
 
 # create a sidebar for entering the tag name
-st.sidebar.write('Our TOP 10 tags are: covid, news, ')
-tag = st.sidebar.text_input('Enter the tag name from our TOP10 list','covid')
+st.sidebar.write('Our TOP 5 tags are: covid, news, technology, food, sports.')
+tag = st.sidebar.text_input('Enter the tag name from our TOP5 list','covid')
 
 # load data
 df = pd.read_csv(f'{tag}.csv')
@@ -34,7 +36,10 @@ st.sidebar.title('Select a metric to display')
 metric = st.sidebar.selectbox('Metric:', ['num_views', 'num_retweets', 'num_comments'])
 
 # create a date range slider for filtering the data by date
-start_date, end_date = st.sidebar.date_input('Date range:', [df['timestamp'].min(), df['timestamp'].max()], min_value=df['timestamp'].min(), max_value=df['timestamp'].max())
+default_dates = [df['timestamp'].min(), df['timestamp'].max()]
+
+start_date, end_date = st.sidebar.date_input('Date range:', default_dates, min_value=df['timestamp'].min(), max_value=df['timestamp'].max())
+
 start_date = pd.Timestamp(start_date, tz='UTC')
 end_date = pd.Timestamp(end_date, tz='UTC')
 filtered_df = df[(df['timestamp'] >= start_date) & (df['timestamp'] <= end_date)]
