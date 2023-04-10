@@ -25,7 +25,7 @@ df = df.dropna(subset=['timestamp', 'num_views', 'num_retweets', 'num_comments']
 
 # create a function to display the chart
 def display_chart(metric):
-    fig = px.bar(filtered_df, x='timestamp', y=metric, title=f'{metric} over time')
+    fig = px.bar(filtered_df, x='timestamp', y=metric, title=f'{metric} of #{tag} over time')
     fig.update_layout(margin=dict(l=20, r=20, t=40, b=20),
     width=800,
     height=400)
