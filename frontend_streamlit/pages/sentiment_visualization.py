@@ -16,19 +16,18 @@ st.sidebar.write('Our TOP 5 tags are: covid, news, technology, food, sports.')
 tag_name = st.sidebar.text_input('Enter the tag name from our TOP5 list:','covid')
 
 
+# import os
 
-# deployment debug---------------------
-import os
+# # Get the current working directory
+# current_dir = os.getcwd()
+# # Print the list of files in the current directory
+# st.write(os.listdir(current_dir))
+# # Build the file path
+# file_path = os.path.join(current_dir, f'pages/{tag_name}_clean.csv')
 
-# Get the current working directory
-current_dir = os.getcwd()
-# Print the list of files in the current directory
-st.write(os.listdir(current_dir))
-# Build the file path
-file_path = os.path.join(current_dir, f'pages/{tag_name}_clean.csv')
+# st.write(file_path)
 
-st.write(file_path)
-# -----------------------
+
 # get data
 # In prod env use this.
 df = pd.read_csv(f'frontend_streamlit/pages/{tag_name}_clean.csv')
