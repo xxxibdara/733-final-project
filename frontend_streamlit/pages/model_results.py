@@ -6,7 +6,7 @@ from textblob import TextBlob
 import streamlit as st
 
 # NLTK tools for text processing
-import re, nltk
+import nltk
 from nltk import word_tokenize
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 nltk.download('punkt')
@@ -19,9 +19,9 @@ from nltk.tokenize import word_tokenize
 st.title("Sentiment Analysis Model Results")
 
 tag = st.text_input('Enter the tag you want to search for: ', 'technology')
-df = pd.read_csv(f'frontend_streamlit/pages/{tag}.csv')
+df = pd.read_csv(f'frontend_streamlit/pages/{tag}_clean.csv')
 
-tweet_text = df['text']
+tweet_text = df['text'].astype(str)
 sid = SentimentIntensityAnalyzer()
 
 df['compound'] = tweet_text.apply(sid.polarity_scores)
@@ -37,11 +37,6 @@ def detect_sentiment(text):
     blob = TextBlob(text)
     return blob.sentiment.polarity
 df['sentiment'] = tweet_text.apply(detect_sentiment)
-
-df['num_comments'] = df['num_comments'].astype(float)
-df['num_retweets'] = df['num_retweets'].astype(float)
-df['num_views'] = df['num_views'].astype(float)
-df['timestamp'] = pd.to_datetime(df['timestamp'])
 
 df['text_tokens'] = df['text'].apply(word_tokenize)
 vectorizer = CountVectorizer()

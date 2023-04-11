@@ -16,7 +16,7 @@ from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import train_test_split
 from nltk.tokenize import word_tokenize
 
-tag = st.text_input("Enter the tag you want to search for: ", 'covid')
+tag = 'technology'
 df = pd.read_csv(f'{tag}_clean.csv')
 
 tweet_text = df['text']
@@ -35,11 +35,6 @@ def detect_sentiment(text):
     blob = TextBlob(text)
     return blob.sentiment.polarity
 df['sentiment'] = tweet_text.apply(detect_sentiment)
-
-df['num_comments'] = df['num_comments'].astype(float)
-df['num_retweets'] = df['num_retweets'].astype(float)
-df['num_views'] = df['num_views'].astype(float)
-df['timestamp'] = pd.to_datetime(df['timestamp'])
 
 df['text_tokens'] = df['text'].apply(word_tokenize)
 vectorizer = CountVectorizer()
