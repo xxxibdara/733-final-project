@@ -1,6 +1,6 @@
 import streamlit as st
 
-st.title("Tagging with a Twist: Sentiment Analysis Applied to Tag Generation")
+st.title("Building a Popular Tweet: Tag Prediction and Sentiment Analysis")
 
 st.subheader("Our Motivation and Background")
 
