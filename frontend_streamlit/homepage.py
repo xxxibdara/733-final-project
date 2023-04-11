@@ -2,11 +2,16 @@ import streamlit as st
 
 st.title("Building a Popular Tweet: Tag Prediction and Sentiment Analysis")
 
-st.subheader("Our motivation and Background")
+st.subheader("Our Motivation and Background")
 
-st.write("Social media platforms like Twitter have become one of the most \
-          popular sources of information and communication, especially among \
-          young people. Millions of tweets are posted every day on various \
-         topics ranging from news, politics, sports, entertainment, and more. \
-         These tweets contain a wealth of information, including people's \
-         opinions, thoughts, and sentiments about various topics.")
+st.write("As the digital landscape evolves and Twitter continues to be \
+          a driving force in shaping public discourse, understanding \
+         trends and effectively participating in discussions is essential. ")
+
+st.write("Our project aims to address these challenges by developing a system \
+         that can perform sentiment analysis and tag prediction on tweets \
+         accurately. We believe that this project can provide valuable \
+         insights to companies, individuals, and researchers by allowing \
+         them to make informed decisions and discover new information. \
+")
+
