@@ -15,7 +15,6 @@ from nltk import FreqDist
 from wordcloud import STOPWORDS
 from wordcloud import WordCloud
 nltk.download('stopwords')
-nltk.download('punkt')
 
 
 st.sidebar.header("Select tag")
