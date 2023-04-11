@@ -9,7 +9,7 @@ import streamlit as st
 import re, nltk
 from nltk import word_tokenize
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
-nltk.download('punkt')
+#nltk.download('punkt')
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_squared_error
