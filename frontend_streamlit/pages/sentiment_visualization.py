@@ -30,7 +30,10 @@ file_path = os.path.join(current_dir, f'pages/{tag_name}_clean.csv')
 st.write(file_path)
 # -----------------------
 # get data
-df = pd.read_csv(f'pages/{tag_name}_clean.csv')
+# In prod env use this.
+df = pd.read_csv(f'frontend_streamlit/pages/{tag_name}_clean.csv')
+# In dev env use this.
+# df = pd.read_csv(f'pages/{tag_name}_clean.csv')
 tweet_text = df['text']
 sid = SentimentIntensityAnalyzer()
 
