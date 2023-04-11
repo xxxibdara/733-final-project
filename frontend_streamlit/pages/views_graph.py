@@ -15,7 +15,7 @@ st.sidebar.write('Our TOP 5 tags are: covid, news, technology, food, sports.')
 tag = st.sidebar.text_input('Enter the tag name from our TOP5 list','covid')
 
 # load data
-df = pd.read_csv(f'{tag}.csv')
+df = pd.read_csv(f'./pages/{tag}.csv')
 
 # convert timestamp column to datetime format, handling errors gracefully
 df['timestamp'] = pd.to_datetime(df['timestamp'], errors='coerce')
