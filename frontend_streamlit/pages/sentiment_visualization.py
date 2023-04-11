@@ -76,10 +76,10 @@ def visualise_sentiments(data):
         word_scores = [sid.polarity_scores(word)["compound"] for word in sentence.split()]
         # Compute the average sentiment score for the sentence
         sentence_score = np.mean(word_scores)
-        scores.append(word_scores + [sentence_score])
+        scores.append([sentence_score] + word_scores)
     
     # Create DataFrame to store sentiment scores for each sentence
-    df = pd.DataFrame(scores, columns=[word for word in data[0].split()] + ["Sentence Score"])
+    df = pd.DataFrame(scores, columns=["Sentence Score"]+[word for word in data[0].split()])
     df = df.reset_index(drop=True).loc[:,~df.columns.duplicated()]
 
     # Create heatmap visualization using streamlit
