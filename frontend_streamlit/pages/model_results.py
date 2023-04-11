@@ -9,7 +9,7 @@ import streamlit as st
 import re, nltk
 from nltk import word_tokenize
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
-#nltk.download('punkt')
+nltk.download('punkt')
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_squared_error
@@ -37,6 +37,9 @@ def detect_sentiment(text):
     blob = TextBlob(text)
     return blob.sentiment.polarity
 df['sentiment'] = tweet_text.apply(detect_sentiment)
+
+# remove any non-numeric values from 'num_comments'
+df['num_comments'] = pd.to_numeric(df['num_comments'], errors='coerce')
 
 df['num_comments'] = df['num_comments'].astype(float)
 df['num_retweets'] = df['num_retweets'].astype(float)
