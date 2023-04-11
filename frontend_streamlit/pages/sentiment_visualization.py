@@ -75,7 +75,7 @@ def visualise_sentiments(data):
         # Compute sentiment scores for each word in the sentence
         word_scores = [sid.polarity_scores(word)["compound"] for word in sentence.split()]
         # Compute the average sentiment score for the sentence
-        sentence_score = np.mean(word_scores)
+        sentence_score = sid.polarity_scores(sentence)["compound"]
         scores.append([sentence_score] + word_scores)
     
     # Create DataFrame to store sentiment scores for each sentence
