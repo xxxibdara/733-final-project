@@ -6,3 +6,5 @@ wordcloud==1.8.1
 pandas==1.5.1
 plotly==5.14.1
 numpy
+textblob==0.15.3
+scikit-learn==0.24.2
