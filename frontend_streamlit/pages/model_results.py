@@ -21,7 +21,7 @@ st.title("Sentiment Analysis Model Results")
 tag = st.text_input('Enter the tag you want to search for: ', 'technology')
 df = pd.read_csv(f'frontend_streamlit/pages/{tag}.csv')
 
-tweet_text = df['text']
+tweet_text = df['text'].astype(str)
 sid = SentimentIntensityAnalyzer()
 
 df['compound'] = tweet_text.apply(sid.polarity_scores)
