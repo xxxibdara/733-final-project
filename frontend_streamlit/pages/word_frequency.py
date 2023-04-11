@@ -22,7 +22,7 @@ st.sidebar.header("Select tag")
 st.sidebar.write('Our TOP 5 tags are: covid, news, technology, food, sports.')
 
 tag_name = st.sidebar.text_input('Enter the tag name from our TOP5 list:','covid')
-df = pd.read_csv(f'./pages/{tag_name}_clean.csv')
+df = pd.read_csv(f'pages/{tag_name}_clean.csv')
 text_df = df['text']
 
 @st.cache_data
