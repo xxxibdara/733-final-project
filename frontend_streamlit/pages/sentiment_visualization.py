@@ -8,13 +8,31 @@ import streamlit as st
 import plotly.express as px
 from datetime import datetime 
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
+import nltk
+nltk.download('vader_lexicon')
 
 st.sidebar.header("Select tag")
 st.sidebar.write('Our TOP 5 tags are: covid, news, technology, food, sports.')
 tag_name = st.sidebar.text_input('Enter the tag name from our TOP5 list:','covid')
 
+
+# import os
+
+# # Get the current working directory
+# current_dir = os.getcwd()
+# # Print the list of files in the current directory
+# st.write(os.listdir(current_dir))
+# # Build the file path
+# file_path = os.path.join(current_dir, f'pages/{tag_name}_clean.csv')
+
+# st.write(file_path)
+
+
 # get data
-df = pd.read_csv(f'{tag_name}_clean.csv')
+# In prod env use this.
+df = pd.read_csv(f'frontend_streamlit/pages/{tag_name}_clean.csv')
+# In dev env use this.
+# df = pd.read_csv(f'pages/{tag_name}_clean.csv')
 tweet_text = df['text']
 sid = SentimentIntensityAnalyzer()
 
@@ -57,11 +75,11 @@ def visualise_sentiments(data):
         # Compute sentiment scores for each word in the sentence
         word_scores = [sid.polarity_scores(word)["compound"] for word in sentence.split()]
         # Compute the average sentiment score for the sentence
-        sentence_score = np.mean(word_scores)
-        scores.append([sentence_score]+ word_scores)
+        sentence_score = sid.polarity_scores(sentence)["compound"]
+        scores.append([sentence_score] + word_scores)
     
     # Create DataFrame to store sentiment scores for each sentence
-    df = pd.DataFrame(scores, columns= ["Sentence Score"]+[word for word in data[0].split()])
+    df = pd.DataFrame(scores, columns=["Sentence Score"]+[word for word in data[0].split()])
     df = df.reset_index(drop=True).loc[:,~df.columns.duplicated()]
 
     # Create heatmap visualization using streamlit
