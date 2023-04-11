@@ -38,6 +38,17 @@ def detect_sentiment(text):
     return blob.sentiment.polarity
 df['sentiment'] = tweet_text.apply(detect_sentiment)
 
+<<<<<<< HEAD
+=======
+# remove any non-numeric values from 'num_comments'
+df['num_comments'] = pd.to_numeric(df['num_comments'], errors='coerce')
+
+df['num_comments'] = df['num_comments'].astype(float)
+df['num_retweets'] = df['num_retweets'].astype(float)
+df['num_views'] = df['num_views'].astype(float)
+df['timestamp'] = pd.to_datetime(df['timestamp'])
+
+>>>>>>> 64d519b5b2c9bc4ae2c822cb3e09f7a01a926e5f
 df['text_tokens'] = df['text'].apply(word_tokenize)
 vectorizer = CountVectorizer()
 X_text = vectorizer.fit_transform(df['text_tokens'].apply(lambda x: ' '.join(x)))
