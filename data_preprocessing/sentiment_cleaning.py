@@ -8,7 +8,7 @@ import pandas as pd
 from datetime import datetime
 
 tag_name = sys.argv[1]
-folder_path = f"/Users/xxxibdara/Downloads/733-final-project/frontend_streamlit/pages/{tag_name}"
+folder_path = f"frontend_streamlit/pages/{tag_name}"
 
 df = pd.read_csv(f'{folder_path}.csv')
 
