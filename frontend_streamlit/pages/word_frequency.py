@@ -49,7 +49,7 @@ def word_frequency(tweet_text):
 stemmed_dist = word_frequency(text_df)
 # create the plot for the top20 most common words using streamlit
 st.title("Top 20 most common words")
-st.text("The top 20 most common words in the tag")
+st.text(f"The top 20 most common words in the #{tag_name} tag")
 
 st.bar_chart(stemmed_dist.set_index('Word')['Frequency'], use_container_width=True)
 
