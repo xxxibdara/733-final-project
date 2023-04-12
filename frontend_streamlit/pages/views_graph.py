@@ -3,6 +3,7 @@
 import pandas as pd
 import streamlit as st
 import plotly.express as px
+from datetime import datetime
 
 # set the page title
 st.title('Twitter data changes over time')
@@ -11,8 +12,9 @@ st.title('Twitter data changes over time')
 st.subheader('This page displays the number of views, retweets, and comments for a given tag over time')
 
 # create a sidebar for entering the tag name
-st.sidebar.write('Our TOP 5 tags are: covid, news, technology, food, sports.')
-tag = st.sidebar.text_input('Enter the tag name from our TOP5 list','covid')
+st.sidebar.title('Top 5 tags')
+st.sidebar.write('covid, news, technology, food, sports.')
+tag = st.sidebar.selectbox('Select a tag:', ['covid', 'news', 'technology', 'food', 'sports'])
 
 # load data
 # In prod env use this.
@@ -21,7 +23,7 @@ df = pd.read_csv(f'frontend_streamlit/pages/{tag}_clean.csv')
 # df = pd.read_csv(f'pages/{tag}_clean.csv')
 
 # convert timestamp column to datetime format, handling errors gracefully
-df['timestamp'] = pd.to_datetime(df['timestamp'], errors='coerce')
+df['timestamp'] = pd.to_datetime(df['timestamp'])
 
 # drop rows with NaN values
 df = df.dropna(subset=['timestamp', 'num_views', 'num_retweets', 'num_comments'])
@@ -39,13 +41,14 @@ st.sidebar.title('Select a metric to display')
 metric = st.sidebar.selectbox('Metric:', ['num_retweets', 'num_comments', 'num_views'])
 
 # create a date range slider for filtering the data by date
-default_dates = [df['timestamp'].min(), df['timestamp'].max()]
+start_date = datetime.strptime('2020-01-01 00:00:00', '%Y-%m-%d %H:%M:%S').date()
+end_date = datetime.strptime('2023-01-01 23:59:59', '%Y-%m-%d %H:%M:%S').date()
 
-start_date, end_date = st.sidebar.date_input('Date range:', default_dates, min_value=df['timestamp'].min(), max_value=df['timestamp'].max())
+start, end = st.sidebar.date_input('Date range:', value=(start_date, end_date))
+start_str = pd.to_datetime(start)
+end_str = pd.to_datetime(end)
 
-start_date = pd.Timestamp(start_date, tz='UTC')
-end_date = pd.Timestamp(end_date, tz='UTC')
-filtered_df = df[(df['timestamp'] >= start_date) & (df['timestamp'] <= end_date)]
+filtered_df = df[(df['timestamp'] >= start_str) & (df['timestamp'] <= end_str)]
 
 
 # display the chart based on the selected metric and date range

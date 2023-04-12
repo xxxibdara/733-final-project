@@ -18,10 +18,9 @@ nltk.download('stopwords')
 nltk.download('punkt')
 
 
-st.sidebar.header("Select tag")
-st.sidebar.write('Our TOP 5 tags are: covid, news, technology, food, sports.')
-
-tag_name = st.sidebar.text_input('Enter the tag name from our TOP5 list:','covid')
+st.sidebar.title('Top 5 tags')
+st.sidebar.write('covid, news, technology, food, sports.')
+tag_name = st.sidebar.selectbox('Select a tag:', ['covid', 'news', 'technology', 'food', 'sports'])
 
 # In prod env use this.
 df = pd.read_csv(f'frontend_streamlit/pages/{tag_name}_clean.csv')
@@ -63,7 +62,7 @@ comments = []
 stop_words = set(stopwords.words('english')) | set(['covid','u','s','t',"https", "co", "RT", 'aren', 'couldn', 'didn', 'doesn', 'don', 'hadn', 'hasn', 'haven', 'isn', 'let', 'll', 'mustn', 're', 'rt', 'shan', 'shouldn', 've', 'wasn', 'weren', 'won', 'wouldn'])
 
 for words in text_df:
-    only_letters = re.sub("[^a-zA-Z]", " ",words)
+    only_letters = re.sub("[^a-zA-Z]", " ", str(words))
     tokens = nltk.word_tokenize(only_letters) #tokenize the sentences
     lower_case = [l.lower() for l in tokens] #convert all letters to lower case
     filtered_result = list(filter(lambda l: l not in stop_words, lower_case)) #Remove stopwords from the comments

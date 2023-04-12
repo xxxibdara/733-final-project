@@ -11,9 +11,9 @@ from nltk.sentiment.vader import SentimentIntensityAnalyzer
 import nltk
 nltk.download('vader_lexicon')
 
-st.sidebar.header("Select tag")
-st.sidebar.write('Our TOP 5 tags are: covid, news, technology, food, sports.')
-tag_name = st.sidebar.text_input('Enter the tag name from our TOP5 list:','covid')
+st.sidebar.title('Top 5 tags')
+st.sidebar.write('covid, news, technology, food, sports.')
+tag_name = st.sidebar.selectbox('Select a tag:', ['covid', 'news', 'technology', 'food', 'sports'])
 
 
 # import os
@@ -33,8 +33,11 @@ tag_name = st.sidebar.text_input('Enter the tag name from our TOP5 list:','covid
 df = pd.read_csv(f'frontend_streamlit/pages/{tag_name}_clean.csv')
 # In dev env use this.
 # df = pd.read_csv(f'pages/{tag_name}_clean.csv')
-tweet_text = df['text']
+tweet_text = df['text'].astype(str)
 sid = SentimentIntensityAnalyzer()
+# Convert timestamp column to datetime type
+df['timestamp'] = pd.to_datetime(df['timestamp'])
+
 
 df['compound'] = tweet_text.apply(sid.polarity_scores)
 extract_values = lambda x: pd.Series([x['neg'], x['neu'], x['pos'], x['compound']], 
@@ -45,26 +48,26 @@ df[['neg', 'neu', 'pos', 'compound']] = df['compound'].apply(extract_values)
 df.dropna(subset=['compound'],inplace=True)
 
 # Define date range filter
-start_date_str = '2020-01-01 00:00:00'
-start_date = datetime.strptime(start_date_str, '%Y-%m-%d %H:%M:%S').date()
-end_date_str = '2023-01-01 23:59:59'
-end_date = datetime.strptime(end_date_str, '%Y-%m-%d %H:%M:%S').date()
-start_date, end_date = st.sidebar.date_input('Date range:', value=(start_date, end_date))
+start_date = datetime.strptime('2020-01-01 00:00:00', '%Y-%m-%d %H:%M:%S').date()
+end_date = datetime.strptime('2023-01-01 23:59:59', '%Y-%m-%d %H:%M:%S').date()
 
-filtered_data = df[(df['timestamp'] >= start_date_str) & (df['timestamp'] <= end_date_str)]
+start, end = st.sidebar.date_input('Date range:', value=(start_date, end_date))
 
-# Convert timestamp column to datetime type
-filtered_data['timestamp'] = pd.to_datetime(filtered_data['timestamp'])
+filtered_data = df[(df['timestamp'] >= pd.to_datetime(start)) & (df['timestamp'] <= pd.to_datetime(end))]
 
 # Group the data by month and calculate the mean compound score
 grouped_data = filtered_data.groupby(pd.Grouper(key='timestamp', freq='M')).mean(numeric_only=True)['compound']
 # Create a line chart changes over time
+start_str = start.strftime('%Y-%m-%d %H:%M:%S')
+end_str = end.strftime('%Y-%m-%d %H:%M:%S')
+x_start = datetime.strptime(start_str, '%Y-%m-%d %H:%M:%S').date()
+x_end = datetime.strptime(end_str, '%Y-%m-%d %H:%M:%S').date()
 fig = px.line(grouped_data, x=grouped_data.index, y='compound', title='Average Sentiment Score over time')
 fig.update_layout(margin=dict(l=80, r=20, t=40, b=20),
     width=800,
     height=400,
     xaxis_title="Month",
-    xaxis_range=[start_date, end_date])
+    xaxis_range=[x_start, x_end])
 st.title("Sentiment Trend by Month")
 st.plotly_chart(fig)
 
