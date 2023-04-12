@@ -16,9 +16,9 @@ tag = st.sidebar.text_input('Enter the tag name from our TOP5 list','covid')
 
 # load data
 # In prod env use this.
-df = pd.read_csv(f'frontend_streamlit/pages/{tag}.csv')
+df = pd.read_csv(f'frontend_streamlit/pages/{tag}_clean.csv')
 # In dev env use this.
-# df = pd.read_csv(f'pages/{tag}.csv')
+# df = pd.read_csv(f'pages/{tag}_clean.csv')
 
 # convert timestamp column to datetime format, handling errors gracefully
 df['timestamp'] = pd.to_datetime(df['timestamp'], errors='coerce')
@@ -36,7 +36,7 @@ def display_chart(metric):
 
 # create a sidebar for selecting the metric to display
 st.sidebar.title('Select a metric to display')
-metric = st.sidebar.selectbox('Metric:', ['num_views', 'num_retweets', 'num_comments'])
+metric = st.sidebar.selectbox('Metric:', ['num_retweets', 'num_comments', 'num_views'])
 
 # create a date range slider for filtering the data by date
 default_dates = [df['timestamp'].min(), df['timestamp'].max()]
