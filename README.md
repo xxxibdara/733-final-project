@@ -40,7 +40,7 @@ You can also check out our application on Streamlit Cloud with simply clicking t
 
 ## Contributors
 - Xiner Qian @qian-x2
-- Xiaoxiao Duan @
-- Zeye Gu @ziyaocui
-- Ziyao Cui @
+- Xiaoxiao Duan @stelladuan
+- Zeye Gu @Simonmon06
+- Ziyao Cui @ziyaocui
 - Jingyi Huang @huangj20, @xxxibdara
