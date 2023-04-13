@@ -14,6 +14,20 @@ from nltk.sentiment.vader import SentimentIntensityAnalyzer
 import nltk
 nltk.download('vader_lexicon')
 
+
+from sklearn.preprocessing import LabelEncoder
+from sklearn.model_selection import train_test_split
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Embedding, SpatialDropout1D, Bidirectional, LSTM, GRU, Dense
+from tensorflow.keras.preprocessing.text import Tokenizer
+from tensorflow.keras.preprocessing.sequence import pad_sequences
+from tensorflow.keras.utils import to_categorical
+from keras.models import load_model
+import tensorflow as tf
+
+
+
+
 st.sidebar.title('Top 5 tags')
 st.sidebar.write('covid, news, technology, food, sports.')
 tag_name = st.sidebar.selectbox('Select a tag:', ['covid', 'news', 'technology', 'food', 'sports'])
@@ -65,6 +79,153 @@ st.title("Sentiment Trend by Month")
 st.plotly_chart(fig)
 
 
+@st.cache_data
+def generate_token_encoder ():
+    
+    df = pd.read_csv("pages/Cleaned_combined_df.csv")
+
+    df = df.dropna(subset=['sent_score', 'Cleaned_Tweet'])
+    df['Cleaned_Tweet'] = df['Cleaned_Tweet'].astype(str)
+
+    X = df['Cleaned_Tweet'].values
+    y = df['sent_score'].values
+
+    # Encoding the labels
+    encoder = LabelEncoder()
+    y = encoder.fit_transform(y)
+    y = to_categorical(y, num_classes=3)
+
+    # Splitting the dataset into training and testing sets
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+    # Tokenization
+    max_words = 10000
+    tokenizer = Tokenizer(num_words=max_words, lower=True, split=' ')
+    tokenizer.fit_on_texts(X_train)
+
+    # Convert the text to sequences
+    X_train = tokenizer.texts_to_sequences(X_train)
+    X_test = tokenizer.texts_to_sequences(X_test)
+
+    # Padding the sequences
+    max_seq_length = 250
+    X_train = pad_sequences(X_train, maxlen=max_seq_length)
+    X_test = pad_sequences(X_test, maxlen=max_seq_length)
+
+    # Model definition
+    model = Sequential()
+    model.add(Embedding(max_words, 128, input_length=max_seq_length))
+    model.add(SpatialDropout1D(0.2))
+    model.add(Bidirectional(LSTM(128, return_sequences=True)))
+    model.add(GRU(128))
+    model.add(Dense(3, activation='softmax'))
+    
+    return tokenizer, encoder
+
+# Compile the model
+# model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+tokenizer, encoder = generate_token_encoder()
+
+
+def lstm_sentiment_score(input_string, model, tokenizer, max_seq_length=250):
+    # Preprocess the input string
+    input_string = [input_string]
+    tokenized_input = tokenizer.texts_to_sequences(input_string)
+    padded_input = tf.keras.utils.pad_sequences(tokenized_input, maxlen=max_seq_length)
+
+    # Predict the sentiment probabilities
+    prediction = model.predict(padded_input)
+
+    # Assign sentiment values
+    sentiment_values = np.array([-1, 0, 1])
+
+    # Calculate the weighted sum of sentiment values
+    sentiment_score = np.dot(prediction, sentiment_values)
+
+    return sentiment_score[0]
+
+
+def predict_sentiment(input_string, model, tokenizer, encoder, max_seq_length=250):
+ 
+
+    # Preprocess the input string
+    input_string = [input_string]  # Convert the string to a list containing the string
+    tokenized_input = tokenizer.texts_to_sequences(input_string)
+    padded_input = tf.keras.utils.pad_sequences(tokenized_input, maxlen=max_seq_length)
+
+    # Predict the sentiment
+    prediction = model.predict(padded_input)
+
+    # Decode the prediction
+    sentiment_class = encoder.inverse_transform([np.argmax(prediction)])
+
+    return sentiment_class[0]
+
+
+model_path = "frontend_streamlit/pages/Bidirectional_LSTM.h5"
+model = load_model(model_path)
+
+
+
+# define css style for button
+button_style = """
+    <style>
+    .stButton > button {
+        width: 100%;
+    }
+    </style>
+    """
+
+st.markdown(button_style, unsafe_allow_html=True)
+
+
+def check_input(tweet_input, model, tokenizer ):
+    if tweet_input:
+        with st.spinner("Generating score..."):
+            score =lstm_sentiment_score(tweet_input, model, tokenizer )
+            num = predict_sentiment(tweet_input, model,tokenizer, encoder )
+        
+        category = 'Negative'
+        if num == 0.0:
+            category = 'Neutral'
+        elif num == 1.0:
+            category = 'Positive'
+            
+        st.markdown('Your input: '+ tweet_input)
+        st.markdown('is: '+ category)
+        st.markdown('with score below')
+        st.markdown(score)
+
+    else:
+        st.write('Please enter a tweet')
+
+# define function to clear input
+def clear_input():
+    st.session_state['tweet_input'] = ''
+
+# set page title and layout
+st.title('LSTM sentiment model test')
+st.subheader('This app generates sentiment score using given content or tweet, the score may be different due to different model, but the category should be the same')
+tweet_input = st.text_area(label='Enter a tweet here to get sentiment score:', value='', key='tweet_input')
+
+# create two columns for buttons
+col1, col2 = st.columns(2)
+
+# generate button
+with col1:
+    button_gene = st.button('Generate')
+    
+# clear input button
+with col2:
+    button_clear = st.button('Clear',on_click=clear_input)
+
+
+if button_gene:
+        check_input(tweet_input, model, tokenizer)
+
+
+
+
 def visualise_sentiments(data):
     scores = []
     for sentence in data:
@@ -90,4 +251,3 @@ text_select = st.sidebar.selectbox("Choose a tweet", df['text'])
 st.title("Sentiment Analysis")
 st.text("Tweet Text: {}".format(text_select))
 visualise_sentiments([text_select])
-
