@@ -8,9 +8,9 @@ import streamlit as st
 import plotly.express as px
 from datetime import datetime 
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
-import sys
-sys.path.append('sentimental_analysis/LSTM')
-import sentiment_model_lstm
+# import sys
+# sys.path.append('sentimental_analysis/LSTM')
+# import sentiment_model_lstm
 import nltk
 nltk.download('vader_lexicon')
 
@@ -31,8 +31,8 @@ sid = SentimentIntensityAnalyzer()
 df['timestamp'] = pd.to_datetime(df['timestamp'])
 
 
-# df['compound'] = tweet_text.apply(sid.polarity_scores)
-df['compound'] = tweet_text.apply(sentiment_model_lstm.get_sentiment)
+df['compound'] = tweet_text.apply(sid.polarity_scores)
+# df['compound'] = tweet_text.apply(sentiment_model_lstm.get_sentiment)
 extract_values = lambda x: pd.Series([x['neg'], x['neu'], x['pos'], x['compound']], 
                                      index=['neg', 'neu', 'pos', 'compound'])
 
