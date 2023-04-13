@@ -206,7 +206,7 @@ def clear_input():
 # set page title and layout
 st.title('Bidirectional LSTM Sentiment Classifier')
 st.subheader('This is the model we trained on 211,774 rows of old tweet data by ourselves with about 90% accuracy on validation dataset')
-st.write('Ttry to input some random tweets, it is very likely that they have different topics from the tweets in our training dataset. So the result may vary. Compare with other results below and above')
+st.write('Enter a random tweet, it is very likely that they have different topics from the tweets in our training dataset. So the result may vary. Compare with other results below and above')
 tweet_input = st.text_area(label='Enter a tweet here to get sentiment score:', value='', key='tweet_input')
 
 # create two columns for buttons
