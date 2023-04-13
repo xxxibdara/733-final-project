@@ -82,7 +82,7 @@ st.plotly_chart(fig)
 @st.cache_data
 def generate_token_encoder ():
     
-    df = pd.read_csv("pages/Cleaned_combined_df.csv")
+    df = pd.read_csv("frontend_streamlit/pages/Cleaned_combined_df.csv")
 
     df = df.dropna(subset=['sent_score', 'Cleaned_Tweet'])
     df['Cleaned_Tweet'] = df['Cleaned_Tweet'].astype(str)
