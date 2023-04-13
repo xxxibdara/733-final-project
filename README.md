@@ -9,6 +9,7 @@ Demo Video:
     - [Run the application](#run-the-application)
     - [Repo Structure](#repo-structure)
     - [Tech Stack](#tech-stack)
+    - [Contributors](#contributors)
 
 
 ## Introduction
@@ -36,3 +37,10 @@ You can also check out our application on Streamlit Cloud with simply clicking t
 - Model Development: PyTorch, Scikit-learn, Transformers
 - Data Visualization: Streamlit, Matplotlib, Plotly, Wordcloud
 - Deployment: Streamlit Cloud
+
+## Contributors
+- Xiner Qian @
+- Xiaoxiao Duan @
+- Zeye Gu @
+- Ziyao Cui @
+- Jingyi Huang @huangj20, @xxxibdara
