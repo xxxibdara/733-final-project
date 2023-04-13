@@ -39,8 +39,8 @@ You can also check out our application on Streamlit Cloud with simply clicking t
 - Deployment: Streamlit Cloud
 
 ## Contributors
-- Xiner Qian @
+- Xiner Qian @qian-x2
 - Xiaoxiao Duan @
-- Zeye Gu @
+- Zeye Gu @ziyaocui
 - Ziyao Cui @
 - Jingyi Huang @huangj20, @xxxibdara
