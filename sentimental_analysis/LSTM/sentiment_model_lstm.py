@@ -1,5 +1,7 @@
-from keras.models import load_model
 import tensorflow as tf
+
+from keras.models import load_model
+
 # from sklearn.preprocessing import LabelEncoder
 import numpy as np
 # from keras.preprocessing.text import Tokenizer
