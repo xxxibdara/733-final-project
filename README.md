@@ -22,7 +22,10 @@ Therefore, our project aims to address these challenges by developing a system t
 Our repository involes Git Large File (GLF), remember to install *git-lfs* in advance. 
 
 ### Run the application locally
-With streamlit installed, enter our *frontend-streamlit* directory, run *streamlit run homepage.py*
+With streamlit installed, enter our *frontend-streamlit* directory, run:
+```
+streamlit run homepage.py
+```
 
 ### Check out our application on Streamlit Cloud
 You can also check out our application on Streamlit Cloud with simply clicking the link below.
