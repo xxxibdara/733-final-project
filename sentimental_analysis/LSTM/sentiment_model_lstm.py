@@ -12,6 +12,7 @@ with open("encoder.pkl", "rb") as f:
 
 with open("tokenizer.pkl", "rb") as f:
     tokenizer = pickle.load(f)
+
 def predict_sentiment(input_string, model_path, tokenizer, max_seq_length=250):
     # Load the saved model
     model = load_model(model_path)
@@ -34,3 +35,10 @@ input_string = "A story which continue today. Received a call from my patient th
 model_path = "Bidirectional_LSTM.h5"
 sentiment = predict_sentiment(input_string, model_path, tokenizer)
 print("The sentiment of the input string is:", sentiment)
+
+def get_sentiment(text):
+    model_path = "Bidirectional_LSTM.h5"
+    with open("tokenizer.pkl", "rb") as f:
+        tokenizer = pickle.load(f)
+    sentiment = predict_sentiment(input_string, model_path, tokenizer)
+    return sentiment

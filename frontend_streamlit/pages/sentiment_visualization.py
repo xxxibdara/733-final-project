@@ -8,6 +8,9 @@ import streamlit as st
 import plotly.express as px
 from datetime import datetime 
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
+import sys
+sys.path.append('sentimental_analysis/LSTM')
+import sentiment_model_lstm
 import nltk
 nltk.download('vader_lexicon')
 
@@ -15,17 +18,6 @@ st.sidebar.title('Top 5 tags')
 st.sidebar.write('covid, news, technology, food, sports.')
 tag_name = st.sidebar.selectbox('Select a tag:', ['covid', 'news', 'technology', 'food', 'sports'])
 
-
-# import os
-
-# # Get the current working directory
-# current_dir = os.getcwd()
-# # Print the list of files in the current directory
-# st.write(os.listdir(current_dir))
-# # Build the file path
-# file_path = os.path.join(current_dir, f'pages/{tag_name}_clean.csv')
-
-# st.write(file_path)
 
 
 # get data
@@ -39,7 +31,8 @@ sid = SentimentIntensityAnalyzer()
 df['timestamp'] = pd.to_datetime(df['timestamp'])
 
 
-df['compound'] = tweet_text.apply(sid.polarity_scores)
+# df['compound'] = tweet_text.apply(sid.polarity_scores)
+df['compound'] = tweet_text.apply(sentiment_model_lstm.get_sentiment)
 extract_values = lambda x: pd.Series([x['neg'], x['neu'], x['pos'], x['compound']], 
                                      index=['neg', 'neu', 'pos', 'compound'])
 

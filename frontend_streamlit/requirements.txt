@@ -6,3 +6,6 @@ wordcloud==1.8.1
 pandas==1.5.1
 plotly==5.14.1
 numpy
+keras
+tensorflow
+pickle
