@@ -204,8 +204,9 @@ def clear_input():
     st.session_state['tweet_input'] = ''
 
 # set page title and layout
-st.title('LSTM sentiment model test')
-st.subheader('This app generates sentiment score using given content or tweet, the score may be different due to different model, but the category should be the same')
+st.title('Bidirectional LSTM Sentiment Classifier')
+st.subheader('This is the model we trained on 211,774 rows of data by ourselves with highest accuracy which is an impressive accomplishment.')
+st.write('Try it now, and compare with other results below and above.')
 tweet_input = st.text_area(label='Enter a tweet here to get sentiment score:', value='', key='tweet_input')
 
 # create two columns for buttons
