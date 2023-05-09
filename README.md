@@ -1,6 +1,6 @@
-# 733-final-project
+# Building a Popular Tweet: Tag Prediction and Sentiment Analysis
 
-Demo Video: 
+Demo Video: https://www.youtube.com/watch?v=lN1VXEbe8nU
 
 # Menu 
 - [Project title](#733-final-project)
